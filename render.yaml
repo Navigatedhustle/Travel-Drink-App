@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: travel-drink-generator
+    env: python
+    plan: starter
+    region: oregon
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn travel_drink_app:app -w 1 -k gthread --threads 8 --timeout 120 -b 0.0.0.0:$PORT
+    autoDeploy: true
+    healthCheckPath: /
+    envVars:
+      - key: PYTHONUNBUFFERED
+        value: "1"
+      - key: SAFE_HOST
+        value: "0.0.0.0"
+      - key: SAFE_PORT
+        value: "10000"
