@@ -479,7 +479,7 @@ BASE_HTML = """
   <header>
     <div class="wrap">
       <h1>Travel Drink Generator</h1>
-      <div class="sub">Smarter orders, lower calories, next-day you will thank yourself SUDO ;).</div>
+      <div class="sub">Smarter orders, lower calories, next-day you will thank yourself.</div>
     </div>
   </header>
   <main>
@@ -868,6 +868,7 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
 
 
 
