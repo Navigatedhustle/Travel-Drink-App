@@ -613,18 +613,30 @@ BASE_HTML = """
 
 # -----------------------------
 # Routes
-# -----------------------------
+# ---- EMBED SAFELIST FOR IFRAMES ----
+ALLOWED_ANCESTORS = [
+    "https://app.gohighlevel.com",
+    "https://my.gohighlevel.com",
+    # add your course domains below, EXACT match, no trailing slash
+    "https://members.activhustle.com",
+    "https://www.activhustle.com",
+    # if you use a white-label GHL domain, add it too
+    "https://*.gohighlevel.com"
+]
+
 @app.after_request
 def add_csp(resp):
-    origin = request.headers.get("Origin", "")
-    allow = "'self'"
-    if origin in ALLOWED_ORIGINS:
-        allow = f"'self' {origin}"
+    # Allow these sites to embed your app in an <iframe>
+    allow_list = " ".join(ALLOWED_ANCESTORS)
     resp.headers["Content-Security-Policy"] = (
-        f"default-src 'self'; frame-ancestors {allow}; base-uri 'self'; "
-        f"script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';"
+        "default-src 'self'; "
+        f"frame-ancestors 'self' {allow_list}; "
+        "base-uri 'self'; "
+        "script-src 'self' 'unsafe-inline'; "
+        "style-src 'self' 'unsafe-inline';"
     )
     return resp
+
 
 
 @app.get("/")
@@ -856,4 +868,5 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
 
